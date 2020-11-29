@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Eje ECG</string>
+    <string name="strAcerca_de">Acerca de…</string>
+    <string name="strVersion">Versión 1.0</string>
+    <string name="calcula_eje_electrico">CALCULA EJE ELECTRICO</string>
+    <string name="di">DI:</string>
+    <string name="diii">DIII:</string>
+    <string name="calcular">calcular</string>
+    <string name="resultado">Resultado</string>
+</resources>
