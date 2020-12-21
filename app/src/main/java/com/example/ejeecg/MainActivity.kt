@@ -68,18 +68,42 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
 
-        binding.editTextDI.requestFocus()
+        binding.run{
+            setContentView(root)
+            setSupportActionBar(toolbar)
+            editTextDI.requestFocus()
+        }
+
+        /**
+        Entre -30º y 90º el eje es normal.
+        Entre 90º y 180º el eje está desviado a la derecha.
+        Entre -30º y -90º el eje está desviado a la izquierda.
+        Entre -90º y -180º el eje tiene desviación extrema.
+        */
 
         mViewModel.getresultado().observe(this,{
-            if(it.toInt() in -30..90){
-                binding.textResultado.setTextColor(getColor(R.color.teal_200))
-            }else{
-                binding.textResultado.setTextColor(getColor(R.color.red))
+            binding.run{
+                when{
+                    it.toInt()<-30 && it.toInt()>-90 -> {
+                        textResultado.setTextColor(getColor(R.color.red))
+                        "$it grados\nEje desviado a la izquierda".also {textResultado.text = it }
+                    }
+                    it.toInt()>=-30 && it.toInt()<=90 ->{
+                        textResultado.setTextColor(getColor(R.color.teal_200))
+                        "$it grados\nEje normal".also {textResultado.text = it }
+                    }
+                    it.toInt()>90 && it.toInt()<=180 ->{
+                        textResultado.setTextColor(getColor(R.color.teal_200))
+                        "$it grados\nEje normal".also {textResultado.text = it }
+                    }
+                    else -> {
+                        textResultado.setTextColor(getColor(R.color.red))
+                        "$it grados\nDesviación del eje extrema".also {textResultado.text = it }
+                    }
+                }
             }
-            "$it grados".also { binding.textResultado.text = it }
+
         })
 
         binding.button.setOnClickListener {
@@ -91,8 +115,11 @@ class MainActivity : AppCompatActivity() {
             }else{
                 Toast.makeText(this,"Hay que completar los valores de DI y DIII", Toast.LENGTH_LONG).apply {
                     setGravity(Gravity.CENTER or Gravity.CENTER_HORIZONTAL, 0, 0)
-                    view.setPadding(50,50,50,50)
-                    view.setBackgroundColor(ContextCompat.getColor(view.context, R.color.teal_200))
+                    view.run{
+                        setPadding(50,50,50,50)
+                        setBackgroundColor(ContextCompat.getColor(context, R.color.teal_200))
+                    }
+
                     show()
                 }
             }
